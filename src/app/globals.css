@@ -1,0 +1,132 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Light mode — kept clean and conventional; dark is the star of this design */
+    --background: 160 20% 98%;
+    --foreground: 200 40% 8%;
+    --card: 0 0% 100%;
+    --card-foreground: 200 40% 8%;
+    --primary: 158 64% 36%;
+    --primary-foreground: 0 0% 100%;
+    --accent-gold: 36 88% 46%;
+    --accent-gold-foreground: 0 0% 100%;
+    --muted: 160 15% 94%;
+    --muted-foreground: 200 15% 40%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 160 15% 87%;
+    --radius: 0.75rem;
+  }
+
+  .dark {
+    /* Deep teal-black, not pure black — gives the glass panels somewhere to sit */
+    --background: 200 38% 6%;
+    --foreground: 160 20% 95%;
+    --card: 200 32% 10%;
+    --card-foreground: 160 20% 95%;
+    --primary: 158 64% 52%;
+    --primary-foreground: 200 38% 6%;
+    --accent-gold: 38 92% 58%;
+    --accent-gold-foreground: 200 38% 6%;
+    --muted: 200 25% 14%;
+    --muted-foreground: 200 15% 65%;
+    --destructive: 0 70% 58%;
+    --destructive-foreground: 200 38% 6%;
+    --border: 200 22% 22%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "cv11", "ss01";
+  }
+  ::selection {
+    background: hsl(var(--primary) / 0.3);
+  }
+  h1, h2, h3 {
+    font-family: var(--font-space-grotesk), var(--font-inter), system-ui, sans-serif;
+    letter-spacing: -0.02em;
+  }
+  /* Thin, glass-toned scrollbar — reinforces the HUD feel without being loud */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--foreground) / 0.15);
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--foreground) / 0.25);
+  }
+}
+
+@layer utilities {
+  /* Glass panel — the base surface treatment used by Card and similar containers */
+  .glass-panel {
+    background: hsl(var(--card) / 0.72);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid hsl(var(--foreground) / 0.08);
+  }
+
+  .glow-primary {
+    box-shadow: 0 0 0 1px hsl(var(--primary) / 0.4), 0 0 24px 0 hsl(var(--primary) / 0.25);
+  }
+  .glow-primary-sm {
+    box-shadow: 0 0 0 1px hsl(var(--primary) / 0.35), 0 0 12px 0 hsl(var(--primary) / 0.18);
+  }
+  .glow-gold-sm {
+    box-shadow: 0 0 0 1px hsl(var(--accent-gold) / 0.4), 0 0 12px 0 hsl(var(--accent-gold) / 0.2);
+  }
+
+  .text-gradient-primary {
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent-gold)));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+/* Ambient aurora backdrop — the one signature ambient motion for the whole app.
+   Fixed behind all content, low opacity, slow drift. Never draws focus on its
+   own; it's atmosphere, not decoration competing with content. */
+@keyframes aurora-drift-a {
+  0%, 100% { transform: translate(-8%, -6%) scale(1); }
+  50% { transform: translate(10%, 4%) scale(1.18); }
+}
+@keyframes aurora-drift-b {
+  0%, 100% { transform: translate(6%, 8%) scale(1.08); }
+  50% { transform: translate(-12%, -6%) scale(0.94); }
+}
+
+.aurora-blob-a {
+  animation: aurora-drift-a 34s ease-in-out infinite;
+}
+.aurora-blob-b {
+  animation: aurora-drift-b 40s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aurora-blob-a,
+  .aurora-blob-b {
+    animation: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
