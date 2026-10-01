@@ -214,7 +214,3 @@ Built in deliberately staged phases, with these intentionally deferred:
 - **Seed script / demo data** — accounts are created through normal registration rather than a pre-populated demo dataset
 - **Document parsing beyond PDF** — resumes are PDF-only; `.docx` support is a reasonable next addition
 - **Multi-interviewer availability / calendar sync** — interviews store a meeting link rather than integrating a calendar provider
-
-## License
-
-MIT
